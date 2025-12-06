@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galerie - TJ DecoRenov</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #111;
+      color: #fff;
+      padding: 15px;
+      text-align: center;
+      font-size: 22px;
+    }
+
+    /* Galerie */
+    .gallery {
+      max-width: 1100px;
+      margin: 40px auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      padding: 0 20px;
+    }
+
+    .gallery img {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      transition: transform .3s ease;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.04);
+    }
+
+    /* Bouton retour */
+    .back {
+      display: block;
+      width: 200px;
+      margin: 40px auto;
+      text-align: center;
+      padding: 15px;
+      background: #111;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 18px;
+      transition: .3s;
+    }
+
+    .back:hover {
+      background: #f6c500;
+      color: #111;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #111;
+      color: #fff;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+<header>Galerie photos</header>
+
+<!-- Galerie d’images -->
+<div class="gallery">
+  <img src="https://i.postimg.cc/TPmQhL7s/image000007(3).jpg" alt="Photo 1">
+  <img src="https://i.postimg.cc/MGRtXMPC/image000010(1).jpg" alt="Photo 2">
+  <img src="https://i.postimg.cc/pd8kyhct/image000008(3).jpg" alt="Photo 3">
+  <img src="https://www.laplateformedesenergies.fr/wp-content/uploads/2022/01/chantier_isolation-murs-renovation.jpg" alt="Photo 4">
+  <img src="https://i.postimg.cc/66GRKJP1/aa.jpg" alt="Photo 5">
+  <img src="https://www.isolation-et-chauffage.com/wp-content/uploads/2010/03/isolation-mur.JPG" alt="Photo 6">
+</div>
+
+<!-- Retour à l'accueil -->
+<a class="back" href="index.html">⬅ Retour à l’accueil</a>
+
+<footer>TJ DecoRenov © 2025</footer>
+
+</body>
+</html>

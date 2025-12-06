@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>T.j decorenov - Slider</title>
+  <style>
+    /* Reset & base */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html,body { height: 100%; }
+    body {
+      font-family: Inter, Arial, sans-serif;
+      background:#f4f6f8;
+      color:#222;
+    }
+
+    /* Slider container fullscreen */
+    .slider-container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Header shown above slides */
+    .slider-header {
+      position: absolute;
+      top: 18px;
+      left: 28px;
+      right: 28px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      z-index: 30;
+      pointer-events: auto;
+    }
+    .slider-header h1 {
+      color: #fff;
+      font-size: 20px;
+      letter-spacing:1px;
+    }
+    .slider-header nav ul {
+      list-style:none;
+      display:flex;
+      gap:22px;
+    }
+    .slider-header nav a {
+      color:#fff;
+      text-decoration:none;
+      font-weight:600;
+      opacity:0.9;
+    }
+
+    /* Slides wrapper */
+    .slider { position: absolute; inset:0; height:100%; width:100%; }
+
+    /* Each slide */
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 900ms ease;
+      z-index: 10;
+      pointer-events: none;
+    }
+    .slide.active { opacity: 1; pointer-events: auto; z-index: 20; }
+
+    /* img covers */
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* important */
+      display: block;
+    }
+
+    /* dark overlay to keep text readable */
+    .slide .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 15;
+    }
+
+    /* arrows */
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 40;
+      background: rgba(0,0,0,0.25);
+      border: none;
+      color: #fff;
+      font-size: 34px;
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      border-radius: 50%;
+      transition: transform .18s ease, background .18s ease;
+      backdrop-filter: blur(2px);
+    }
+    .arrow:hover { transform: translateY(-50%) scale(1.08); background: rgba(0,0,0,0.35); }
+    .arrow.left { left: 20px; }
+    .arrow.right { right: 20px; }
+
+    /* scroll down chevron */
+    .scroll-down {
+      position: absolute;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 40;
+      color: #fff;
+      font-size: 28px;
+      opacity: 0.95;
+      animation: bounce 1.6s infinite;
+      pointer-events: none;
+    }
+    @keyframes bounce {
+      0% { transform: translate(-50%,0); }
+      50% { transform: translate(-50%,8px); }
+      100% { transform: translate(-50%,0); }
+    }
+
+    /* make sure content below slider isn't hidden */
+    main { min-height: 60vh; }
+
+    /* small responsive tweaks */
+    @media (max-width:720px){
+      .slider-header h1 { font-size: 18px; }
+      .arrow { width:48px; height:48px; font-size:28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SLIDER (place this where you want the slider to appear) -->
+  <div class="slider-container" aria-label="Slider d'images">
+
+    <header class="slider-header" role="banner">
+      <h1>T.j decorenov</h1>
+      <nav role="navigation" aria-label="Principale">
+        <ul>
+          <li><a class="active" href="">ACCUEIL</a></li>
+          <li><a href="c.html">À PROPOS</a></li>
+          <li><a href="vc.html">CONTACT</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="slider" role="list">
+
+      <!-- slide 1 -->
+      <div class="slide active" role="listitem" aria-hidden="false">
+        <img src="https://i.postimg.cc/JhBGzwPt/image000001.jpg" alt="Plafond (exemple) - image 1">
+        <div class="overlay"></div>
+      </div>
+      <!-- slide 1 -->
+      <div class="slide active" role="listitem" aria-hidden="false">
+        <img src="https://i.postimg.cc/csRbHF5g/image0000001(8).jpg" alt="Plafond (exemple) - image 1">
+        <div class="overlay"></div>
+      </div>
+      <!-- slide 1 -->
+      <div class="slide active" role="listitem" aria-hidden="false">
+        <img src="https://i.postimg.cc/kg0GpJdF/image0000001(9).jpg" alt="Plafond (exemple) - image 1">
+        <div class="overlay"></div>
+      </div>
+      <!-- slide 3 -->
+      <div class="slide" role="listitem" aria-hidden="true">
+        <img src="https://i.postimg.cc/YpgXdNmb/image0000001(1).jpg" alt="Projet - image 3">
+        <div class="overlay"></div>
+      </div>
+
+    </div>
+
+    <button class="arrow left" aria-label="Précédent">&#10094;</button>
+    <button class="arrow right" aria-label="Suivant">&#10095;</button>
+
+    <div class="scroll-down" aria-hidden="true">&#8964;</div>
+  </div>
+  
+
+  <!-- Example page content (you can remove/change) -->
+  <script>
+    // JavaScript minimal et fiable pour faire fonctionner le slider
+    (function(){
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const btnPrev = document.querySelector('.arrow.left');
+      const btnNext = document.querySelector('.arrow.right');
+      let current = 0;
+      let timer = null;
+      const AUTO_DELAY = 6000;
+
+      function goTo(index){
+        // clamp
+        index = (index + slides.length) % slides.length;
+        slides.forEach((s,i) => {
+          s.classList.toggle('active', i === index);
+          s.setAttribute('aria-hidden', i === index ? 'false' : 'true');
+        });
+        current = index;
+      }
+
+      function next(){
+        goTo(current + 1);
+      }
+      function prev(){
+        goTo(current - 1);
+      }
+
+      // attach events
+      btnNext.addEventListener('click', () => {
+        next();
+        resetTimer();
+      });
+      btnPrev.addEventListener('click', () => {
+        prev();
+        resetTimer();
+      });
+
+      // keyboard navigation (left/right)
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') { prev(); resetTimer(); }
+        if (e.key === 'ArrowRight') { next(); resetTimer(); }
+      });
+
+      // autoplay
+      function startTimer(){
+        stopTimer();
+        timer = setInterval(next, AUTO_DELAY);
+      }
+      function stopTimer(){
+        if (timer) { clearInterval(timer); timer = null; }
+      }
+      function resetTimer(){
+        startTimer();
+      }
+
+      // ensure first image is visible (in case images are slow)
+      slides.forEach((s,i) => {
+        if (i === 0) s.classList.add('active');
+      });
+
+      // start autoplay
+      startTimer();
+
+      // optional: pause autoplay when user hovers on arrows
+      [btnNext, btnPrev].forEach(btn => {
+        btn.addEventListener('mouseenter', stopTimer);
+        btn.addEventListener('mouseleave', startTimer);
+      });
+
+      // make images cover correctly on resize (object-fit handles it)
+      window.addEventListener('visibilitychange', () => {
+        if (document.hidden) stopTimer(); else startTimer();
+      });
+
+    })();
+  </script>
+  <!DOCTYPE html>
+
+    <style>* {
+  margin : 0;
+  padding : 0;
+  box-sizing : border-box;
+  font-family  : "Inter", Arial, sans-serif;
+}
+
+body {
+  background: #f4f6f8;
+  color: #2b2b2b;
+  line-height: 1.7;
+}
+
+/* Palette moderne
+   Noir profond : #111
+   Accent jaune : #f6c500
+   Gris clair : #f4f6f8
+   Gris texte : #333
+*/
+
+/* ------------------------------------------- */
+/* HEADER */
+/* ------------------------------------------- */
+
+header {
+  background: #111;
+  padding: 25px 40px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+header h1 {
+  font-size: 1.8rem;
+  letter-spacing: 1px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+}
+
+nav a {
+  color: #fff;
+  font-weight: 500;
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 4px;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background: #f6c500;
+  transition: width .3s ease;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+/* ------------------------------------------- */
+/* HERO */
+/* ------------------------------------------- */
+
+#hero {
+  text-align: center;
+  padding: 100px 20px;
+  background: linear-gradient(to right, #111, #333);
+  color: white;
+  border-radius: 0 0 35px 35px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+#hero h2 {
+  font-size: 2.6rem;
+  margin-bottom: 15px;
+  animation: fadeInDown .8s ease-out;
+}
+
+#hero p {
+  max-width: 800px;
+  margin: auto;
+  opacity: 0.9;
+  animation: fadeInUp 1s ease-out;
+}
+
+/* ANIMATIONS */
+@keyframes fadeInDown {
+  from { transform: translateY(-20px); opacity: 0;}
+  to { transform: translateY(0); opacity: 1;}
+}
+@keyframes fadeInUp {
+  from { transform: translateY(20px); opacity: 0;}
+  to { transform: translateY(0); opacity: 1;}
+}
+
+/* ------------------------------------------- */
+/* PRESTATIONS */
+/* ------------------------------------------- */
+
+#prestations {
+  padding: 70px 30px;
+}
+
+#prestations h2 {
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 50px;
+  position: relative;
+}
+
+#prestations h2::after {
+  content: "";
+  width: 80px;
+  height: 4px;
+  background: #f6c500;
+  display: block;
+  margin: 15px auto 0;
+  border-radius: 3px;
+}
+
+.prestation {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+  transition: transform .3s ease, box-shadow .3s ease;
+  text-align: center;
+}
+
+.prestation:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+}
+
+.prestation img {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+
+.prestation h3 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+  color: #111;
+}
+
+.prestation a {
+  color: #111;
+  border-bottom: 2px solid #f6c500;
+  padding-bottom: 3px;
+  font-weight: bold;
+  transition: color .3s ease, border-color .3s ease;
+}
+
+.prestation a:hover {
+  color: #f6c500;
+  border-color: #111;
+}
+
+/* GRID moderne */
+@media (min-width: 820px) {
+  #prestations {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 35px;
+  }
+}
+
+/* ------------------------------------------- */
+/* FAQ */
+/* ------------------------------------------- */
+
+#faq {
+  padding: 60px 30px;
+}
+
+#faq h2 {
+  text-align: center;
+  font-size: 2.1rem;
+  margin-bottom: 40px;
+}
+
+#faq h3 {
+  color: #111;
+  margin-top: 25px;
+  font-size: 1.2rem;
+}
+
+#faq p {
+  margin-bottom: 20px;
+  color: #444;
+}
+
+/* ------------------------------------------- */
+/* CONTACT */
+/* ------------------------------------------- */
+
+#contact {
+  background: white;
+  margin: 60px auto;
+  padding: 50px 30px;
+  border-radius: 18px;
+  max-width: 800px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+#contact h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+form label {
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+
+form input,
+form textarea {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  transition: border .3s ease, box-shadow .3s ease;
+}
+
+form input:focus,
+form textarea:focus {
+  border-color: #f6c500;
+  box-shadow: 0 0 6px rgba(246,197,0,0.5);
+}
+
+form button {
+  background: #111;
+  color: white;
+  padding: 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: background .3s ease;
+}
+
+form button:hover {
+  background: #f6c500;
+  color: #111;
+}
+
+.localisation {
+  text-align: center;
+  margin-top: 25px;
+  font-style: italic;
+  color: #555;
+}
+
+/* ------------------------------------------- */
+/* FOOTER */
+/* ------------------------------------------- */
+
+footer {
+  background: #111;
+  color: white;
+  text-align: center;
+  padding: 25px 10px;
+  margin-top: 60px;
+  border-radius: 25px 25px 0 0;
+}
+
+footer p {
+  opacity: 0.8;
+  margin: 4px 0;
+}
+</style>
+  <meta charset="utf-8">
+  <title>Tj decorenov  </title>
+  <!-- ... autres metas / liens éventuels ... -->
+</head>
+<body>
+
+
+  <main>
+    <section id="hero">
+      <h2>Bienvenue chez T.j decorenov</h2>
+      <p>T.j decorenov est votre partenaire de confiance pour tous vos besoins en matière de platrerie et d'isolation base à Merville. Nous mettons un point d'honneur à fournir des services de haute qualité pour satisfaire pleinement nos clients.</p>
+    </section>
+
+    <section id="prestations">
+      <h2>Prestations de service</h2>
+      <div class="prestation">
+        <img src="https://i.postimg.cc/ydbQXZ0G/image0000001(3).jpg" alt="Isolation thermique">
+        <h3>Isolation thermique</h3>
+        <p>Isolation thermique pour une maison confortable et économe en énergie.</p>
+        <a href="f.html">Plus d'informations</a>
+      </div>
+      <div class="prestation">
+        <img src="https://i.postimg.cc/cH3W30nR/image0000001(4).jpg" alt="Cloisons et faux plafonds">
+        <h3>Cloisons et faux plafonds</h3>
+        <p>Cloisons et faux plafonds sur mesure pour des espaces personnalisés.</p>
+        <a href="a.html">Plus d'informations</a>
+      </div>
+      <div class="prestation">
+        <img src="https://i.postimg.cc/d0Kpfr7b/image0000001(5).jpg" alt="Cloisons et faux plafonds">
+        <h3>peinture interieur/exterieur</h3>
+        <p>Une couleur adapter a chacune de vos pièces interieur.</p>
+        <a href="b.html">Plus d'informations</a>
+      </div>
+      <div class="prestation">
+        <img src="https://i.postimg.cc/c1gqrxSr/image0000001(6).jpg" alt="Cloisons et faux plafonds">
+        <h3>renovation et pose de sol </h3>
+        <p>specialisées dans le domaine du revetement de sol et de la renovation</p>
+        <a href="d.html">Plus d'informations</a>
+      </div>
+    </section>
+  <footer>T.j decorenov</p>
+  </footer>
+</body>
+</html>

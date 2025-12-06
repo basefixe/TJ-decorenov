@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TJ DecoRenov</title>
+
+  <style>
+    /* ----------------------------- */
+    /* RESET */
+    /* ----------------------------- */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: Inter, Arial, sans-serif; background:#f4f6f8; color:#222; }
+
+header {
+  background: #111;
+  padding: 25px 40px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+header h1 {
+  font-size: 1.8rem;
+  letter-spacing: 1px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+}
+
+nav a {
+  color: #fff;
+  font-weight: 500;
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 4px;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background: #f6c500;
+  transition: width .3s ease;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+    /* ----------------------------- */
+    /* CONTENT SECTIONS */
+    /* ----------------------------- */
+    section {
+      max-width:900px;
+      margin:40px auto;
+      background:#fff;
+      padding:30px;
+      border-radius:10px;
+      box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    section h2 {
+      font-size:28px;
+      margin-bottom:20px;
+      color:#111;
+    }
+
+    section p { line-height:1.7; font-size:18px; margin-bottom:20px; }
+
+    .values h3 { margin-top:20px; margin-bottom:10px; }
+    .values ul { list-style:none; padding-left:0; }
+    .values ul li {
+      background:#eaeaea;
+      padding:10px 15px;
+      border-radius:8px;
+      margin-bottom:10px;
+    }
+
+    /* ----------------------------- */
+    /* FOOTER */
+    /* ----------------------------- */
+    footer {
+      background:#111;
+      color:#fff;
+      text-align:center;
+      padding:25px 10px;
+      border-radius:25px 25px 0 0;
+      margin-top:50px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ---------------------------------------- -->
+  <!-- SLIDER -->
+  <!-- ---------------------------------------- -->
+  <div class="slider-container">
+
+    <header class="slider-header">
+      <h1>TJ DecoRenov</h1>
+      <nav>
+        <ul>
+          <li><a href="index.html">ACCUEIL</a></li>
+          <li><a href="c.html">À PROPOS</a></li>
+          <li><a href="vc.html">CONTACT</a></li>
+        </ul>
+      </nav>
+    </header>
+  </div>
+
+  <!-- ---------------------------------------- -->
+  <!-- ABOUT SECTION -->
+  <!-- ---------------------------------------- -->
+  <section>
+    <h2>À propos de TJ DecoRenov</h2>
+
+    <p><strong>TJ DecoRenov</strong> est une entreprise spécialisée dans la rénovation intérieure, la décoration et l’amélioration de l’habitat. Basée à <strong>Merville</strong>, nous intervenons pour transformer vos espaces selon vos besoins et votre style.</p>
+
+    <p>Nous mettons un point d’honneur à offrir un travail soigné, des finitions impeccables et un accompagnement personnalisé du début à la fin.</p>
+
+    <p>Que vous souhaitiez moderniser votre intérieur, refaire une pièce complète ou rafraîchir vos murs, nous vous garantissons un travail professionnel et durable.</p>
+
+    <div class="values">
+      <h3>Nos valeurs</h3>
+      <ul>
+        <li>Travail soigné et finitions de qualité</li>
+        <li>Écoute et conseils personnalisés</li>
+        <li>Matériaux durables et techniques maîtrisées</li>
+      </ul>
+    </div>
+
+    <div class="values">
+      <h3>Nos domaines d’expertise</h3>
+      <ul>
+        <li>Peinture & décoration</li>
+        <li>Rénovation intérieure</li>
+        <li>Revêtements muraux et sols</li>
+        <li>Petits travaux de finition</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------- -->
+  <!-- FOOTER -->
+  <!-- ---------------------------------------- -->
+  <footer>
+    <p>TJ DecoRenov © 2025 — Tous droits réservés</p>
+  </footer>
+</body>
+</html>
